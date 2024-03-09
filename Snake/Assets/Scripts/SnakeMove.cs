@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SnakeMove : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class SnakeMove : MonoBehaviour
     bool goingLeft;
     bool goingDown;
     bool goingRight;
+
+    
 
     //body
     List<Transform> segments;               //list of the body parts
@@ -34,24 +37,40 @@ public class SnakeMove : MonoBehaviour
 
 
 
-        if (Input.GetKeyDown(KeyCode.W))      //activates as soon as W is pressed
+        if (Input.GetKeyDown(KeyCode.W) && goingDown != true)      //activates as soon as W is pressed
         {
             direction = Vector2.up;
+            goingUp = true;
+            goingLeft = false;
+            goingDown = false;
+            goingRight = false;
         }
 
-        else if(Input.GetKeyDown(KeyCode.A))
+        else if(Input.GetKeyDown(KeyCode.A) && goingRight == false)
         {
             direction = Vector2.left;
+            goingUp = false;
+            goingLeft = true;
+            goingDown = false;
+            goingRight = false;
         }
 
-        else if (Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(KeyCode.S) && goingUp != true)
         {
             direction = Vector2.down;
+            goingUp = false;
+            goingLeft = false;
+            goingDown = true;
+            goingRight = false;
         }
 
-        else if (Input.GetKeyDown(KeyCode.D))
+        else if (Input.GetKeyDown(KeyCode.D) && goingLeft == false)
         {
             direction = Vector2.right;
+            goingUp = false;
+            goingLeft = false;
+            goingDown = false;
+            goingRight = true;
         }
 
         
@@ -92,6 +111,10 @@ public class SnakeMove : MonoBehaviour
         {
             Debug.Log ("hit");
             Grow();
+
+
+
+            Time.fixedDeltaTime -= 0.001f;
         }
 
         else if (other.tag == "Obstacle")
